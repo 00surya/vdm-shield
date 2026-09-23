@@ -1,0 +1,189 @@
+/* Scientific workstation theme. Layout and visual tokens live here;
+   feature-specific visualization styles remain in style.css. */
+:root{
+  --canvas:#eef1f4;--surface:#fff;--line:#d5dce4;--ink:#233342;
+  --muted:#596c7d;--accent:#176781;--nav:#172936;
+  font-family:"Segoe UI",Inter,-apple-system,BlinkMacSystemFont,sans-serif;
+  color:var(--ink);background:var(--canvas);font-size:14px;
+}
+body{min-width:320px}
+a{color:var(--accent)}
+.topbar{
+  position:fixed;inset:0 auto 0 0;width:216px;height:100vh;
+  display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start;
+  gap:0;padding:26px 16px;background:var(--nav);border:0;z-index:30;
+  overflow-y:auto;
+}
+.brand{padding:0 8px 24px;gap:10px;color:#f0f5f9;letter-spacing:0;font-size:17px}
+.brand-mark{transform:none;gap:2px}
+.brand-mark i,.brand-mark i:nth-child(n){border-radius:1px;background:#6cc0d2}
+.topbar nav{display:flex;flex-direction:column;align-items:stretch;gap:5px;width:100%;overflow:visible}
+.topbar nav a,.topbar nav a:last-child{
+  display:flex;height:auto;min-height:44px;align-items:center;padding:12px;
+  border:1px solid transparent;border-radius:5px;color:#c0cfda;
+  font-size:13px;line-height:1.35;white-space:normal;text-decoration:none;
+}
+.topbar nav a:hover{color:#fff;background:#243e4f}
+.topbar nav a.active{color:#fff;background:#284959;border-color:#426576;font-weight:650}
+.local{display:flex;margin-top:auto;padding:24px 12px 0;color:#b9cbd5;font-size:11px}
+.local span{background:#79c5aa;box-shadow:none;width:6px;height:6px}
+.service-nav{align-self:stretch;margin-top:18px;border-top:1px solid #38505e;padding-top:12px}
+.service-nav summary{padding:12px;color:#b7c9d5;font-size:12px;cursor:pointer}
+.service-nav>div{position:static;min-width:0;padding:0 0 0 8px;background:transparent;border:0;border-radius:0;box-shadow:none}
+.service-nav>div a{font-size:12px!important}
+main{width:auto;max-width:1600px;margin:0 0 0 216px;padding:28px 32px 60px}
+.page.workspace,.workspace{margin-top:0;min-height:calc(100vh - 180px)}
+.capacity-page{max-width:none}
+.section-heading,.capacity-page-head{align-items:flex-start;gap:20px;margin:0 0 24px;padding-bottom:20px;border-bottom:1px solid var(--line)}
+.page h1,.capacity-page-head h1{font-size:27px;font-weight:600;letter-spacing:-.025em;line-height:1.25;margin:6px 0 0}
+.section-kicker,.capacity-overline,.eyebrow{font-size:10px;letter-spacing:.13em;color:var(--accent);font-weight:700}
+.page-subtitle,.capacity-page-head .page-subtitle{font-size:13px;line-height:1.6;color:var(--muted);max-width:720px}
+h2,h3{color:var(--ink)}
+.panel,.chart-card,.source-card,.incident,.metric-card,.file-card,
+.capacity-page .capacity-overview>.chart-card,.capacity-page .capacity-retention,
+.capacity-page .device-banner,.workflow-guide article{
+  border:1px solid var(--line);border-radius:6px;background:var(--surface);box-shadow:none;
+}
+.chart-card,.source-card,.incident,.capacity-page .capacity-overview>.chart-card,
+.capacity-page .capacity-retention{padding:20px}
+button,.primary,.actions button,.incident button,.incident a,.normal-sample button,
+.normal-sample a,.device-toolbar button,.date-filters button{
+  border-radius:4px;box-shadow:none;min-height:38px;padding:9px 14px;
+  font-size:12px;font-weight:600;line-height:1.3;
+}
+button:not(.primary):not(.tab):not(.range):not(.heat-cell){border:1px solid #bcc9d3;background:#fff;color:#344f62}
+.primary{border-color:var(--accent);background:var(--accent);color:white}
+.primary:hover{background:#11536a}
+.capacity-page button,.capacity-page input{min-height:40px}
+input:not([type=file]),select,.event-filters input,.event-filters select{min-height:40px;border:1px solid #b9c6d2;border-radius:4px;padding:9px 11px;font-size:13px}
+label:not(.dropzone){line-height:1.5}
+.count-pill,.badge,.review-badge,.metrics span,.priority-pill{border-radius:4px;font-size:11px}
+.count-pill{background:#e6eef3;color:#36566b}
+.device-toolbar{gap:8px}
+.device-toolbar .count-pill{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:10px}
+.capacity-page .device-banner{border-left:4px solid var(--accent);padding:18px 22px;margin-bottom:16px;background:#f9fcfd}
+.device-banner h2{font-size:22px;margin:8px 0}
+.device-banner p{font-size:13px;margin:0;max-width:760px}
+.device-kpis{gap:12px;margin-bottom:20px}
+.device-kpis>div{padding:18px;border:1px solid var(--line);border-radius:5px;box-shadow:none}
+.device-kpis strong,.metric-card strong{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-variant-numeric:tabular-nums;font-size:27px;font-weight:500;letter-spacing:-.04em}
+.device-kpis span{font-size:11px}.device-kpis small{font-size:11px;color:var(--muted)}
+.capacity-page .capacity-overview{gap:16px;grid-template-columns:minmax(0,1.7fr) minmax(270px,1fr)}
+.capacity-overview h2{font-size:19px;font-weight:600;letter-spacing:-.02em;margin-top:10px}
+.device-camera-table{font-variant-numeric:tabular-nums;min-width:490px}
+.device-camera-table th{background:#eef3f6;font-size:10px;color:#4c6375;padding:11px 10px}
+.device-camera-table td{padding:15px 10px;font-size:12px}
+.device-camera-table tr:nth-child(even){background:#f8fafc}
+.device-camera-table small{color:#536979}
+.device-badge{border-radius:3px}
+#device-disk-meter{height:10px;accent-color:var(--accent)}
+.capacity-page .capacity-plan-link{font-size:12px;min-height:34px;margin-top:12px}
+.capacity-page .capacity-retention{margin-bottom:16px}
+.capacity-retention-form{margin-top:12px;gap:10px}
+.capacity-retention-form label{max-width:150px}
+.capacity-specs{margin:12px 0 0}
+.capacity-specs dt{text-transform:capitalize}
+.capacity-specs div{font-size:12px;gap:24px}
+.capacity-specs dd{max-width:70%;font-weight:500}
+.capacity-disclosure summary{font-size:12px;color:var(--accent)}
+.capacity-note,.section-note,.hint{color:var(--muted);font-size:12px;line-height:1.6}
+.device-alerts{border-radius:5px;font-size:13px}
+.source-list{gap:16px;grid-template-columns:repeat(auto-fit,minmax(min(100%,440px),1fr))}
+.view{border-radius:4px}.view-label{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:10px;letter-spacing:.04em}
+.source-head h3{font-size:15px;font-weight:600}
+.actions{flex-wrap:wrap}
+.empty{border-radius:5px;text-align:left;padding:28px;font-size:13px;color:var(--muted)}
+.intro{text-align:left;padding:0 0 24px}
+.intro h1{font-size:27px;margin:10px 0}
+.intro p{margin:0;max-width:720px;font-size:13px}
+.sparkle{display:none}
+.setup{max-width:860px;margin:0;padding:24px}
+.tabs,.range-tabs{border-radius:5px}.tab,.range{border-radius:3px}
+.dropzone{border-radius:5px;min-height:140px;background:#f7fafc}
+.workflow-guide{max-width:860px;margin:20px 0;gap:12px}
+.workflow-guide h2{font-size:14px}.workflow-guide p{font-size:12px}
+.next-step{text-align:left;font-size:12px}
+.event-filters{margin-top:16px}.date-filters{flex-wrap:wrap}
+.metric-card{min-height:120px;border-radius:5px}
+.chart-grid,.training-grid{gap:16px}
+#sizing-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+#sizing-form button{align-self:end;justify-self:start}
+.global-message,.threat-notice{max-width:none;margin:16px 32px 0 248px;border-radius:5px;padding:12px 16px;font-size:12px}
+.threat-notice{background:#fff7e9;border-color:#e2c795;color:#704e16}
+.threat-notice a{color:#704e16}
+footer{max-width:none;margin:0 32px 0 248px;padding:18px 0 24px;font-size:11px;color:#65798a}
+@media(min-width:1800px){main{margin-right:auto}}
+@media(max-width:1200px){
+  main{padding:24px;margin-left:190px}.topbar{width:190px;padding:22px 12px}
+  .capacity-page .capacity-overview{grid-template-columns:1fr}
+  .global-message,.threat-notice{margin-left:214px;margin-right:24px}
+  footer{margin-left:214px;margin-right:24px}
+  .section-heading{flex-wrap:wrap}.device-toolbar{justify-content:flex-start}
+}
+@media(max-width:760px){
+  .topbar{position:relative;inset:auto;width:100%;height:auto;padding:16px;overflow:visible}
+  .brand{padding:0 0 14px}.topbar nav{display:flex;flex-direction:row;flex-wrap:wrap;justify-content:flex-start;gap:4px;order:initial}
+  .topbar nav a,.topbar nav a:last-child{min-height:40px;padding:9px 10px;font-size:12px}
+  .service-nav{margin:0;padding:0;border:0;position:static}
+  .service-nav summary{padding:12px 10px}
+  .service-nav>div{position:absolute;right:16px;left:16px;background:var(--nav);border:1px solid #426576;padding:8px;z-index:40}
+  .service-nav>div a{display:block!important}
+  .local{display:none}
+  main{margin:0;padding:22px 16px 40px}
+  .global-message,.threat-notice{margin:14px 16px 0}
+  footer{margin:0 16px;padding:18px 0;flex-wrap:wrap}
+  .page.workspace{margin-top:0}.page h1,.capacity-page-head h1{font-size:24px}
+  .device-kpis{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .device-kpis>div{padding:14px}.device-kpis strong{font-size:24px}
+  .device-banner{flex-direction:column;align-items:stretch;gap:14px}
+  .device-banner button{align-self:flex-start}
+  .device-toolbar .count-pill{width:auto}
+  .workflow-guide,.training-grid,.chart-grid{grid-template-columns:1fr}
+  .capacity-specs dd{max-width:65%}
+}
+@media(max-width:420px){
+  .device-kpis span,.device-kpis small{font-size:10px}
+  .device-kpis strong{font-size:21px}
+  #sizing-form{grid-template-columns:1fr}
+  .setup{padding:18px}.tabs{max-width:none}.tab{padding:10px 8px;font-size:12px}
+}
+
+/* Local operator translations and separate engineering reference. */
+.docs-controls{display:flex;gap:12px;flex-wrap:wrap}
+.docs-controls .docs-language{min-width:180px;margin:0}
+.docs-layout{grid-template-columns:210px minmax(0,1fr);gap:20px}
+.docs-layout nav{top:24px}
+.docs-layout nav button{text-align:start;white-space:normal;line-height:1.6;min-height:40px}
+.docs-card{border-radius:5px;padding:22px;scroll-margin-top:24px}
+.docs-card h2{font-size:19px}
+.docs-card p{font-size:14px;line-height:1.9}
+#docs[dir="rtl"]{font-family:"Noto Nastaliq Urdu","Noto Naskh Arabic","Geeza Pro",Tahoma,sans-serif}
+#docs[dir="rtl"] .docs-card p{line-height:2.2;text-align:start;unicode-bidi:plaintext}
+#docs[dir="rtl"] .docs-controls{direction:ltr}
+#docs[dir="rtl"] #docs-search{direction:rtl}
+@media(max-width:900px){.docs-controls{width:100%}.docs-layout{grid-template-columns:1fr}.docs-layout nav{position:static;grid-template-columns:repeat(2,minmax(0,1fr));max-height:200px}}
+@media(max-width:480px){.docs-controls .docs-language{width:100%}.docs-layout nav{grid-template-columns:1fr}}
+
+/* Operator-friendly device status. Technical measurements remain in disclosures. */
+.capacity-page-head{border:0;margin-bottom:18px;padding-bottom:0}
+.capacity-page-head .page-subtitle{font-size:14px;max-width:560px}
+.capacity-page .device-banner{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:18px;align-items:center;padding:24px;border:1px solid #cfe2d5;border-left:0;border-radius:18px;background:linear-gradient(120deg,#f3fbf6,#fff);box-shadow:0 10px 30px rgba(22,101,52,.06)}
+.device-banner[data-status="attention"]{border-color:#efd5a8;background:linear-gradient(120deg,#fff8e9,#fff)}
+.device-banner[data-status="starting"],.device-banner[data-status="idle"]{border-color:#d5e2f4;background:linear-gradient(120deg,#f4f8ff,#fff)}
+.device-banner-icon{display:grid;place-items:center;width:48px;height:48px;border-radius:50%;background:#daf1e2;color:#176738;font-size:23px;font-weight:750}
+.device-banner[data-status="attention"] .device-banner-icon{background:#ffebc8;color:#8a5300}
+.device-banner[data-status="starting"] .device-banner-icon,.device-banner[data-status="idle"] .device-banner-icon{background:#deebff;color:#176781}
+.device-banner-copy{min-width:0}.device-banner h2{font-size:24px;margin:5px 0 3px}.device-banner p{font-size:14px}
+.device-kpis{gap:14px;margin:18px 0 22px}.device-kpis>article{display:flex;align-items:center;gap:14px;min-width:0;padding:20px;border:1px solid #dce4eb;border-radius:16px;background:#fff;box-shadow:0 5px 20px rgba(31,50,66,.035)}
+.device-kpis>article>div{min-width:0}.device-kpis span,.device-kpis strong,.device-kpis small{display:block}.device-kpis .device-kpi-icon{flex:0 0 auto;display:grid;place-items:center;width:37px;height:37px;border-radius:11px;background:#edf5f7;color:#176781;font-size:18px}
+.device-kpis strong{font-family:inherit;font-size:24px;font-weight:650;margin:4px 0 2px;white-space:nowrap}.device-kpis span:not(.device-kpi-icon){font-size:11px;color:#526779;font-weight:650}.device-kpis small{font-size:10px;color:#748493;white-space:normal}
+.device-all-clear,.device-alert-panel{display:flex;align-items:center;gap:13px;margin:0 0 18px;padding:14px 17px;border-radius:13px;font-size:13px}.device-all-clear{background:#eaf7ee;color:#176738}.device-all-clear:before{content:'✓';display:grid;place-items:center;width:23px;height:23px;border-radius:50%;background:#cdebd7;font-weight:800}.device-all-clear span{color:#3d6b4e}.device-alert-panel{display:block;background:#fff5e5;color:#744800;border:1px solid #f0d8aa}.device-alert-panel .device-alerts{border:0;background:transparent;margin:5px 0 0;padding:0 0 0 21px}
+.capacity-page .capacity-overview{grid-template-columns:minmax(0,1.65fr) minmax(280px,.85fr);gap:16px;margin-bottom:16px}.capacity-page .capacity-overview>.chart-card{border-radius:17px;padding:23px}.capacity-card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px}.capacity-card-head .capacity-plan-link{margin:0;min-height:36px;padding:0 13px;border:1px solid #d8e3ea;border-radius:9px;text-decoration:none}.capacity-overview h2{margin:6px 0 3px}.capacity-overview>article>p{font-size:12px}.capacity-overview>article>p strong{color:#243447}
+.device-table-scroll{margin-top:17px}.device-camera-table th{background:#f4f7f9;text-transform:none;letter-spacing:0;font-size:11px}.device-camera-table td{padding:15px 10px}.device-badge{border-radius:99px;padding:5px 9px}
+.storage-card #device-disk-meter{height:11px;margin:18px 0 10px}.storage-card .device-storage-health{margin:8px 0 0!important}.storage-card .capacity-note{padding-top:12px;border-top:1px solid #edf1f4}
+.capacity-operator-grid{display:grid;grid-template-columns:minmax(0,.85fr) minmax(380px,1.15fr);gap:16px}.capacity-page .capacity-operator-grid>.capacity-retention{margin:0 0 16px;padding:23px;border-radius:17px}.capacity-operator-grid h2{font-size:18px;margin:7px 0}.capacity-operator-grid p{font-size:12px;line-height:1.6;color:var(--muted)}
+.cleanup-card{background:linear-gradient(135deg,#fff,#f8fbff)}.capacity-retention-form{display:flex;align-items:end;gap:10px;margin-top:16px}.capacity-retention-form label{max-width:none;width:210px;font-size:12px}.capacity-retention-form select{display:block;width:100%;min-height:44px;margin-top:6px;padding:0 12px;border:1px solid #cbd7e1;border-radius:9px;background:#fff;color:var(--ink);font:inherit}.capacity-retention-form button{min-height:44px}.capacity-inline-help{margin-top:13px;border-top:1px solid #e5ebf0;padding-top:12px}.capacity-inline-help summary{cursor:pointer;color:var(--accent);font-size:12px;font-weight:650}.capacity-inline-help p{margin:9px 0 0}
+.capacity-page>.capacity-disclosure{margin-bottom:10px;padding:0 20px;border-radius:13px}.capacity-page>.capacity-disclosure summary{padding:17px 0;font-size:13px;color:#334b5c;font-weight:650;list-style:none}.capacity-page>.capacity-disclosure summary::-webkit-details-marker{display:none}.capacity-page>.capacity-disclosure summary:after{content:'⌄';float:right;color:#718391}.capacity-page>.capacity-disclosure[open] summary:after{content:'⌃'}.capacity-page>.capacity-disclosure summary span{color:#7b8994;font-size:11px;font-weight:400}.capacity-page>.capacity-disclosure #device-export{margin:14px 0 0}
+@media(max-width:1050px){.capacity-page .capacity-overview,.capacity-operator-grid{grid-template-columns:1fr}.device-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px){.capacity-page .device-banner{grid-template-columns:auto minmax(0,1fr);padding:19px}.device-banner button{grid-column:1/-1}.device-kpis>article{padding:15px}.capacity-page .capacity-overview>.chart-card,.capacity-page .capacity-operator-grid>.capacity-retention{padding:19px}.capacity-retention-form{align-items:stretch;flex-direction:column}.capacity-retention-form label,.capacity-retention-form button{width:100%}}
+@media(max-width:430px){.device-kpis{grid-template-columns:1fr}.device-kpis strong{font-size:22px}.device-all-clear{align-items:flex-start}.capacity-card-head{align-items:stretch;flex-direction:column}.capacity-card-head .capacity-plan-link{align-self:flex-start}}

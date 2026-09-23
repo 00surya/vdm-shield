@@ -1,0 +1,41 @@
+name: Cloud checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cloud-checks-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  cloud-tests:
+    name: Accounts, groups and licensing
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.13'
+          cache: pip
+          cache-dependency-path: |
+            requirements-cloud.txt
+            pyproject.toml
+      - name: Install test dependencies
+        run: python -m pip install -e '.[cloud,test]'
+      - name: Check accounts and device access
+        run: >-
+          python -m pytest -q
+          tests/test_cloud_accounts.py
+          tests/test_cloud_people.py
+          tests/test_cloud_licensing.py
+          tests/test_group_workspaces.py
+          tests/test_metadata_sync.py

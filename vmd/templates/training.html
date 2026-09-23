@@ -1,0 +1,47 @@
+<section class="page workspace training-workspace" id="training" data-page="training">
+  <div class="section-heading">
+    <div><span class="section-kicker">Dataset and model</span><h1>Training data</h1><p class="page-subtitle">See what the saved clips can teach the model, and where the data is weak.</p></div>
+    <button class="primary" type="button" id="train-button">Train clip model <span aria-hidden="true">→</span></button>
+  </div>
+  <p class="section-note">Training updates a GRU temporal head over a frozen ResNet18 encoder. Pose, depth, the object detector, and heuristic rules use their existing models and settings. Candidates add alerts only after passing the held-out validation gate.</p>
+  <div class="model-status-card"><span class="section-kicker">Latest training run</span><p id="training-status" role="status" aria-live="polite">Loading training status…</p><p id="temporal-active" class="section-note"></p><p id="temporal-params" class="section-note"></p><progress id="training-progress" max="30" value="0" aria-label="Training epoch progress" hidden></progress><span id="training-readiness" class="readiness">Checking data…</span></div>
+
+  <details class="chart-card dataset-import"><summary>Add your own labeled dataset clips</summary>
+  <p>Upload a short clip, select the event it actually shows, and enter its camera or original-recording group. Reuse the same group for clips from the same footage. Include normal scenes and missed incidents. Saving counts as an operator-reviewed label.</p>
+  <form id="dataset-form"><label>Video clip<input type="file" name="video" accept="video/*,.avi,.mkv" required></label><label>Reviewed label<select name="label" id="dataset-label"></select></label><label>Source group<input name="group" placeholder="e.g. campus-gate-camera-1" maxlength="100" required></label><button class="primary" type="submit">Add training clip</button></form><p id="dataset-message" role="status"></p><div id="dataset-files"></div></details>
+  <div class="training-section-head"><div><h2>Data inventory</h2><p>Candidate clips have a saved raw video file; video decoding is checked during training.</p></div><a href="#events">Review event labels →</a></div>
+  <div class="metric-cards training-cards">
+    <article class="metric-card"><span>Candidate clips</span><strong id="audit-clips">—</strong><p>Raw clips available for training.</p></article>
+    <article class="metric-card"><span>Operator reviewed</span><strong id="audit-reviewed">—</strong><p>Confirmed, dismissed, or relabeled by a person.</p></article>
+    <article class="metric-card"><span>Provisional labels</span><strong id="audit-provisional">—</strong><p>Proposed automatically; may be wrong.</p></article>
+    <article class="metric-card"><span>Distinct sources</span><strong id="audit-sources">—</strong><p>Different camera or upload IDs.</p></article>
+    <article class="metric-card"><span>Missing raw clips</span><strong id="audit-missing">—</strong><p>Records that cannot be used for training.</p></article>
+  </div>
+  <p id="audit-origin" class="audit-origin"></p>
+  <div class="training-grid">
+    <article class="chart-card">
+      <div class="chart-heading"><h2>Labels in the dataset</h2><p>Counts show candidate clips, not verified incidents.</p></div>
+      <div class="audit-table-wrap"><table class="audit-table"><thead><tr><th>Label</th><th>Clips</th><th>Reviewed</th><th>Provisional</th><th>Sources</th></tr></thead><tbody id="audit-labels"><tr><td colspan="5">Loading labels…</td></tr></tbody></table></div>
+      <p id="audit-balance" class="audit-caption"></p>
+    </article>
+    <article class="chart-card">
+      <div class="chart-heading"><h2>Quality and bias risks</h2><p>These are data warnings, not a calculated percentage of model bias.</p></div>
+      <div id="audit-findings" class="audit-findings"><p>Checking the dataset…</p></div>
+    </article>
+  </div>
+
+  <article class="chart-card evaluation-card">
+    <div class="chart-heading"><h2>Latest candidate validation</h2><p id="evaluation-status">Checking whether source-separated validation is possible…</p></div>
+    <div class="evaluation-grid">
+      <div><span>Event precision</span><strong id="eval-precision">—</strong><small>Of clips flagged as events, how many were reviewed events?</small></div>
+      <div><span>Event recall</span><strong id="eval-recall">—</strong><small>Of reviewed event clips, how many were flagged?</small></div>
+      <div><span>Event/normal accuracy</span><strong id="eval-accuracy">—</strong><small>Correct event versus normal decisions on held-out clips.</small></div>
+      <div><span>Exact label accuracy</span><strong id="eval-type-accuracy">—</strong><small>Correct event type, or normal, on held-out clips.</small></div>
+    </div>
+    <p id="evaluation-detail" class="audit-caption">Percentages are unavailable until source-separated testing has enough operator-reviewed clips.</p>
+    <div class="audit-table-wrap"><table class="audit-table"><caption>Exact labels on held-out clips</caption><thead><tr><th>Label</th><th>Tested clips</th><th>Correct label</th><th>Wrong label</th></tr></thead><tbody id="evaluation-labels"><tr><td colspan="4">No measured results yet.</td></tr></tbody></table></div><p class="evaluation-limit">These held-out scores test the candidate on reviewed clips from a source excluded from its training. Other reviewed clips may be used for training. They are not a test of the deployed alert pipeline. Detector-selected clips alone cannot estimate missed incidents in continuous video. Minimum promotion gates are 80% event recall and 60% precision; these are prototype thresholds, not deployment guarantees.</p>
+  </article>
+  <article class="chart-card samples-card">
+    <details class="sample-disclosure"><summary>Review automatically sampled normal clips</summary><div id="normal-samples"></div></details>
+  </article>
+</section>

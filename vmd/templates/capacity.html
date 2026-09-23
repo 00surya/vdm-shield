@@ -1,0 +1,122 @@
+<section class="page workspace capacity-page" id="capacity" data-page="capacity">
+  <div class="section-heading capacity-page-head">
+    <div>
+      <span class="section-kicker">System check</span>
+      <h1>Is everything working?</h1>
+      <p class="page-subtitle">A simple view of your cameras, alert clips, and available storage.</p>
+    </div>
+    <div class="device-toolbar">
+      <span class="count-pill" id="capacity-updated">Connecting…</span>
+      <button type="button" id="device-refresh">Check again</button>
+    </div>
+  </div>
+
+  <article class="chart-card device-banner">
+    <div class="device-banner-icon" aria-hidden="true">✓</div>
+    <div class="device-banner-copy">
+      <span class="capacity-overline">Overall status</span>
+      <h2 id="device-status">Checking the system…</h2>
+      <p id="device-status-detail">This normally takes a few seconds.</p>
+    </div>
+    <button type="button" id="device-fullscreen" class="primary">Open full screen</button>
+  </article>
+
+  <div id="device-issues" role="status" aria-live="polite"></div>
+
+  <div class="device-kpis" aria-label="System summary">
+    <article><span class="device-kpi-icon" aria-hidden="true"><img src="{{ url_for('static', filename='fa-video.svg') }}" alt=""></span><div><span>Cameras online</span><strong id="device-online-kpi">—</strong><small id="device-online-note">Checking connections</small></div></article>
+    <article><span class="device-kpi-icon" aria-hidden="true"><img src="{{ url_for('static', filename='fa-chip.svg') }}" alt=""></span><div><span>Detection</span><strong id="device-health-kpi">—</strong><small>Pose, depth, and objects</small></div></article>
+    <article><span class="device-kpi-icon" aria-hidden="true"><img src="{{ url_for('static', filename='fa-disk.svg') }}" alt=""></span><div><span>Free space</span><strong id="device-storage-kpi">—</strong><small>For videos and alert clips</small></div></article>
+    <article><span class="device-kpi-icon" aria-hidden="true">♻</span><div><span>Eco mode</span><strong id="device-eco-kpi">—</strong><small id="device-eco-note">Checking camera settings</small></div></article>
+    <article><span class="device-kpi-icon" aria-hidden="true"><img src="{{ url_for('static', filename='fa-clock.svg') }}" alt=""></span><div><span>System running</span><strong id="device-uptime">—</strong><small>Since the last restart</small></div></article>
+  </div>
+
+  <article class="chart-card eco-comparison-card">
+    <div class="eco-comparison-head"><div><span class="capacity-overline">Eco savings</span><h2>Eco mode compared with Normal mode</h2><p id="eco-comparison-status">Turn on Eco mode for a live camera to begin measuring.</p></div><a class="capacity-plan-link" href="#sources">Choose cameras →</a></div>
+    <div class="eco-mode-flow" aria-label="How Eco mode works"><div><span>1</span><p><strong>Scene becomes quiet</strong><small>Lightweight motion monitoring continues.</small></p></div><b aria-hidden="true">→</b><div><span>2</span><p><strong>Model work reduces</strong><small>Pose and depth run less often.</small></p></div><b aria-hidden="true">→</b><div><span>3</span><p><strong>Safety checks stay on</strong><small>Visible weapons are still checked every second.</small></p></div></div>
+    <div class="eco-comparison-layout">
+      <div class="eco-bars" aria-label="Normal and Eco people-tracking work comparison">
+        <div class="eco-bar-row"><div><strong>Normal mode</strong><span id="eco-normal-label">Waiting for a measurement</span></div><progress id="eco-normal-bar" max="1" value="0"></progress></div>
+        <div class="eco-bar-row eco-bar-saved"><div><strong>Eco mode</strong><span id="eco-actual-label">Waiting for a measurement</span></div><progress id="eco-actual-bar" max="1" value="0"></progress></div>
+        <p>Normal is estimated from the camera’s measured full-analysis rate. Eco is the actual people-tracking work from the same session.</p>
+      </div>
+      <div class="eco-savings-facts">
+        <div><span>Tracking checks avoided</span><strong id="eco-saved-scans">—</strong></div>
+        <div><span>Estimated work reduction</span><strong id="eco-reduction">—</strong></div>
+        <div><span>Time in quiet mode</span><strong id="eco-quiet-time">—</strong></div>
+      </div>
+    </div>
+    <div id="eco-camera-comparisons" class="eco-camera-comparisons"></div>
+    <details class="capacity-inline-help"><summary>How security checks continue</summary><p>During a quiet scene, pose and visible weapon checks still run once every second, and depth runs once every ten seconds. Motion immediately restores full processing. These figures measure model work, not electricity, carbon emissions, or detection accuracy.</p></details>
+  </article>
+
+  <div class="capacity-overview">
+    <article class="chart-card camera-health-card">
+      <div class="capacity-card-head"><div><span class="capacity-overline">Your cameras</span><h2 id="device-camera-count">—</h2></div><a class="capacity-plan-link" href="#analyze">Add camera</a></div>
+      <p>Check whether each camera is connected, detection is keeping up, and Eco mode is enabled where you want it.</p>
+      <details class="fps-guide capacity-disclosure"><summary>Advanced: processing speed and FPS</summary>
+        <p><strong>Input FPS</strong> is the video arriving from the camera. <strong>Analysis FPS</strong> is the measured pose/motion processing rate. <strong>Target FPS</strong> is the requested analysis rate, not a guarantee.</p>
+        <p>Depth and object checks run separately; their “Ready” status does not mean they process every frame. The browser display rate can also differ.</p>
+        <p>If analysis stays below target, test with fewer active cameras or investigate device performance. You can choose a lower target to reduce requested work, but it does not make the hardware faster and may miss brief activity.</p>
+        <p>Set a whole number from 1–60 and select Save FPS. Changes apply without restarting the camera and persist across restarts. Wait for fresh measurements after saving. Test representative footage before choosing a deployment rate.</p>
+        <p>“On pace” means at least 90% of the lower of input FPS and target FPS. It measures speed, not detection accuracy.</p>
+      </details>
+      <p id="eco-save-status" class="eco-save-status" role="status" aria-live="polite"></p>
+      <p id="fps-save-status" role="status" aria-live="polite"></p>
+      <div class="device-table-scroll"><table class="device-camera-table"><thead><tr><th scope="col">Camera</th><th scope="col">Video</th><th scope="col">Detection</th><th scope="col">Safety checks</th></tr></thead><tbody id="capacity-sources"></tbody></table></div>
+      <a class="capacity-plan-link" href="#sources">Open live cameras →</a>
+    </article>
+
+    <article class="chart-card storage-card">
+      <span class="capacity-overline">Storage</span>
+      <h2 id="device-disk-free">—</h2>
+      <p id="device-storage-health" class="device-storage-health">Checking available space…</p>
+      <progress id="device-disk-meter" max="100" value="0" aria-label="Storage used"></progress>
+      <p id="device-disk-detail">Loading storage…</p>
+      <p class="capacity-note">Videos and alert clips use this space. Clean up old files if it becomes low.</p>
+      <a class="capacity-plan-link" href="#videos">Manage saved videos →</a>
+    </article>
+  </div>
+
+  <div class="capacity-operator-grid">
+    <article class="chart-card capacity-retention evidence-card">
+      <span class="capacity-overline">Alert clips</span>
+      <h2 id="device-evidence-status">Checking saved clips…</h2>
+      <p id="device-evidence-detail">Making sure evidence can be saved.</p>
+      <a class="capacity-plan-link" href="#events">Review alert clips →</a>
+    </article>
+
+    <article class="chart-card capacity-retention cleanup-card">
+      <span class="capacity-overline">Automatic cleanup</span>
+      <h2>How long should new clips stay?</h2>
+      <p>Older alert clips and automatic samples are removed after this time.</p>
+      <form id="retention-form" class="capacity-retention-form">
+        <label for="retention-days">Keep new clips for
+          <select id="retention-days" name="days" required disabled>
+            <option value="1">1 day</option><option value="7">7 days</option><option value="14">14 days</option>
+            <option value="30">30 days</option><option value="60">60 days</option><option value="90">90 days</option>
+            <option value="180">6 months</option><option value="365">1 year</option>
+          </select>
+        </label>
+        <button class="primary" type="submit" disabled>Save setting</button>
+      </form>
+      <p id="retention-status" role="status" aria-live="polite">Loading your setting…</p>
+      <details class="capacity-inline-help"><summary>What gets deleted?</summary><p>Only new alert clips and automatic training samples follow this setting. Event details, uploaded videos, and clips you upload for training remain available until you remove them.</p></details>
+    </article>
+  </div>
+
+  <details class="chart-card capacity-retention capacity-disclosure support-disclosure">
+    <summary>Device information and help</summary>
+    <dl id="device-product" class="capacity-specs"></dl>
+  </details>
+  <details class="chart-card capacity-retention capacity-disclosure">
+    <summary>Technical details <span>for support staff</span></summary>
+    <dl id="device-hardware" class="capacity-specs"></dl>
+    <button type="button" id="device-export" disabled>Download support report</button>
+    <p>The report contains device health and camera names. It can help support staff diagnose a problem.</p>
+  </details>
+  <details class="chart-card capacity-retention capacity-disclosure">
+    <summary>Connect a TV or monitor</summary>
+    <p>Connect the VMD device to a display with HDMI. Use a mouse and keyboard, or a compatible touchscreen. Network cameras connect through the network; USB cameras connect directly to the device.</p>
+  </details>
+</section>

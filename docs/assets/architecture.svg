@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
+<title id="title">VDM Shield architecture</title><desc id="desc">Cameras feed the local device, which analyzes video, saves clips and supports operator review and local training. A separate web workspace manages people, groups and licences. Only access checks and numeric health summaries cross the boundary.</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#8c9cb2"/></marker></defs>
+<rect width="1280" height="720" rx="24" fill="#10141d"/>
+<g font-family="Arial, Helvetica, sans-serif">
+<text x="56" y="61" fill="#9db9f9" font-size="14" font-weight="700" letter-spacing="3">VDM SHIELD / SYSTEM OVERVIEW</text>
+<text x="56" y="114" fill="#f6f7fa" font-size="36" font-weight="700">Processing stays with the cameras.</text>
+<text x="56" y="149" fill="#aab3c3" font-size="18">Local monitoring and review. Web-based access management.</text>
+<rect x="44" y="185" width="822" height="424" rx="18" fill="#1b2331" stroke="#39455b"/>
+<text x="72" y="224" fill="#b5c9f8" font-size="14" font-weight="700" letter-spacing="2">ON THE DEVICE</text>
+<g fill="#273247" stroke="#465573"><rect x="72" y="254" width="186" height="96" rx="12"/><rect x="298" y="254" width="222" height="96" rx="12"/><rect x="560" y="254" width="278" height="96" rx="12"/></g>
+<g fill="#f5f7fc" font-size="20" font-weight="700"><text x="91" y="292">Cameras / video</text><text x="319" y="292">Analyze the scene</text><text x="581" y="292">Save possible incidents</text></g>
+<g fill="#b8c1d1" font-size="14"><text x="91" y="321">Live feeds + recordings</text><text x="319" y="321">Motion · pose · objects · Z</text><text x="581" y="321">Short clips and supporting signals</text></g>
+<g fill="none" stroke="#8c9cb2" stroke-width="2" marker-end="url(#arrow)"><path d="M259 302 H285"/><path d="M521 302 H548"/><path d="M699 351 V397"/></g>
+<rect x="560" y="410" width="278" height="112" rx="12" fill="#eef2fa"/>
+<text x="582" y="451" fill="#17243a" font-size="22" font-weight="700">Operator review</text><text x="582" y="482" fill="#4a596d" font-size="16">Confirm · dismiss · correct</text>
+<rect x="298" y="410" width="222" height="112" rx="12" fill="#273247" stroke="#465573"/>
+<text x="319" y="451" fill="#f5f7fc" font-size="20" font-weight="700">Local learning</text><text x="319" y="482" fill="#b8c1d1" font-size="15">Train reviewed clips; validate</text>
+<path d="M558 466 H533" stroke="#8c9cb2" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M408 409 V364" stroke="#8c9cb2" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="72" y="434" fill="#cbd8f8" font-size="16" font-weight="700">Eco mode</text><text x="72" y="462" fill="#b8c1d1" font-size="15">Lower sampling in</text><text x="72" y="486" fill="#b8c1d1" font-size="15">quiet live scenes</text>
+<text x="72" y="574" fill="#acb8cd" font-size="16">Footage, camera settings, evidence and learned models remain here.</text>
+<rect x="922" y="185" width="314" height="424" rx="18" fill="#eef2fa"/>
+<text x="951" y="224" fill="#4e6387" font-size="14" font-weight="700" letter-spacing="2">WEB WORKSPACE</text>
+<text x="951" y="277" fill="#17243a" font-size="24" font-weight="700">Manage access</text>
+<g fill="#4a596d" font-size="18"><text x="951" y="322">Accounts and organizations</text><text x="951" y="359">Groups and operators</text><text x="951" y="396">Licences and device access</text><text x="951" y="433">Administrative logs</text><text x="951" y="470">Numeric device health</text></g>
+<path d="M878 549 H908" stroke="#8c9cb2" stroke-width="2" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+<text x="951" y="548" fill="#294778" font-size="15" font-weight="700">Access checks + health summaries</text><text x="951" y="573" fill="#4a596d" font-size="15">No camera feed or evidence uploads</text>
+<text x="56" y="664" fill="#aab3c3" font-size="16">Alerts support human review. Local training starts with an operator and must pass validation.</text>
+</g></svg>

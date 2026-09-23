@@ -1,0 +1,3 @@
+-e .[vision,desktop,depth-export]
+PyInstaller>=6.11,<7
+pywebview>=5,<7; sys_platform == 'darwin'

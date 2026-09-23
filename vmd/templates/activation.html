@@ -1,0 +1,11 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>VDM · Activate your workspace</title><link rel="stylesheet" href="/static/activation.css"><script src="/static/activation.js" defer></script></head><body><main>
+<a href="/">← Open camera workspace</a><p class="eyebrow">VDM SHIELD · DESKTOP</p><h1>Your group. Your cameras.</h1>
+<p>Connect this Mac to your organization with a one-time activation code.</p>
+<section><h2 id="state">Checking access…</h2><p id="workspace"></p><p id="message" role="status"></p><p id="details"></p><button id="check" type="button">Check licence now</button></section>
+<section><h2>Activate this installation</h2><ol><li>Sign in to the VDM website with your own account.</li><li>Open Devices & licences, choose your group and generate a code.</li><li>Paste the code below, then open your camera workspace.</li></ol>
+{% if cloud_url %}<p><a href="{{ cloud_url }}/devices" target="_blank" rel="noopener noreferrer">Open website & generate a code ↗</a></p>{% endif %}
+<form id="activate"><label for="code">One-time activation code</label><input id="code" type="password" required minlength="20" maxlength="128" autocomplete="off"><button>Activate device</button></form>
+<p>Each installation belongs to one group. Camera settings and evidence are kept in separate local group workspaces. Account administration stays on the website.</p></section>
+<section><h2>Change workspace</h2><p>Revoke the old device on the website to free its slot, then remove its local activation. Activate again with a code for the new group. Existing group evidence is preserved in its own workspace.</p><button id="clear" type="button">Remove local activation</button></section>
+<p id="result" role="alert"></p><p>Credentials use the native OS credential store. Processing and evidence stay on this device; only device health and aggregate counts sync to your group. Internet is required for activation and licence checks. Processing pauses when the short online lease expires.</p>
+</main></body></html>

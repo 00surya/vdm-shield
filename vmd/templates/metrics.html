@@ -1,0 +1,49 @@
+<section class="page workspace" id="metrics" data-page="metrics">
+  <div class="section-heading">
+    <div>
+      <span class="section-kicker">Activity overview</span>
+      <h1>What happened in your footage</h1>
+      <p class="page-subtitle">A clear view of saved detection signals and people counts.</p>
+    </div>
+    <div class="range-tabs" aria-label="Metrics time range">
+      <button type="button" class="range active" data-range="24h" aria-pressed="true">24 hours</button>
+      <button type="button" class="range" data-range="7d" aria-pressed="false">7 days</button>
+    </div>
+  </div>
+  <p class="section-note">These numbers come from saved live analysis. A detection signal needs operator review before it is treated as an incident.</p>
+  <article class="chart-card">
+    <div class="chart-heading"><h2>Live pipeline performance</h2><p>Measured worker output, not detection accuracy. Background checks sample frames; they do not inspect every input frame.</p></div>
+    <div class="device-table-scroll"><table class="device-camera-table"><thead><tr><th>Source / stage</th><th>Completed rate</th><th>Processing time</th><th>Capture to result</th><th>Result age</th></tr></thead><tbody id="pipeline-metrics"></tbody></table></div>
+    <p id="pipeline-evidence" class="capacity-note"></p>
+    <p class="capacity-note">Rates are recent measurements. Worker rates cover a 10-second window; “—” means unavailable. Objects and weapons currently share a worker. Classifier and browser rates are not measured here. Session/frame identifiers align results; late detections refer to their original video time.</p>
+  </article>
+  <div class="metric-cards">
+    <article class="metric-card"><span>Signals detected</span><strong id="metric-events">—</strong><p>Potential events raised by the system.</p></article>
+    <article class="metric-card"><span>Needs review</span><strong id="metric-unreviewed">—</strong><p>Signals without an operator decision.</p></article>
+    <article class="metric-card"><span>Confirmed</span><strong id="metric-confirmed">—</strong><p>Signals marked real by an operator.</p></article>
+    <article class="metric-card"><span>Dismissed</span><strong id="metric-dismissed">—</strong><p>Signals marked as false alarms.</p></article>
+    <article class="metric-card"><span>Peak people</span><strong id="metric-peak">—</strong><p>Highest count in one frame, not unique people.</p></article>
+  </div>
+  <div class="chart-grid">
+    <article class="chart-card">
+      <div class="chart-heading"><h2>When signals appeared</h2><p>Each blue bar counts detection signals in one hour or day.</p></div>
+      <div id="event-chart" class="column-chart" role="img" aria-label="Detection signals over time"></div>
+      <p id="event-chart-note" class="chart-note"></p>
+    </article>
+    <article class="chart-card">
+      <div class="chart-heading"><h2>People in frame</h2><p>Each green bar is the highest count in one saved frame during that interval.</p></div>
+      <div id="people-chart" class="column-chart people-chart" role="img" aria-label="Peak people per interval"></div>
+      <p id="people-chart-note" class="chart-note">A blank interval means no frame samples were saved.</p>
+    </article>
+  </div>
+  <article class="chart-card heatmap-card">
+    <div class="chart-heading"><h2>When signals happen</h2><p>Last seven days by local day and hour. Select a square to see its count.</p></div>
+    <div class="heatmap-scroll"><div id="signal-heatmap" class="signal-heatmap" aria-label="Detection signal heatmap"></div></div>
+    <div class="heatmap-footer"><p id="heatmap-selection" role="status" aria-live="polite">Select an hour to inspect it.</p><div class="heatmap-legend" aria-label="Heatmap legend"><span class="legend-item"><i class="heat-unknown"></i>No saved frames</span><span class="legend-item"><i class="heat-zero"></i>0 signals</span><span class="legend-item"><i class="heat-one"></i>1</span><span class="legend-item"><i class="heat-two"></i>2–3</span><span class="legend-item"><i class="heat-many"></i>4+</span></div></div>
+  </article>
+  <article class="chart-card type-card">
+    <div class="chart-heading"><h2>Signals by type</h2><p>Counts use the type proposed by the detector. Review may change how the clip is used for training.</p></div>
+    <div id="type-chart" class="type-chart"></div>
+  </article>
+  <p id="metrics-status" class="metrics-status" role="status" aria-live="polite"></p>
+</section>

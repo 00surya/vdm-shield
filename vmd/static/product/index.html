@@ -1,0 +1,182 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>VDM — Presentation content board</title><link rel="stylesheet" href="storyboard.css"></head><body><header><b>VDM</b><span>Presentation content board · Read from top to bottom</span><a href="/">Open application ↗</a></header><main><div class="intro"><span class="kicker">FOR THE PRESENTATION DESIGN TEAM</span><h1>The complete VDM story.<br><em>Every component in view.</em></h1><p>This is a content reference for building the presentation. Each numbered panel has a topic, suggested slide message, diagram and explanation. All component descriptions are visible.</p><div class="legend"><span>● Working prototype</span><span>◆ Planned product experience</span><span>△ Requires field validation</span></div></div>
+<section class="board blue" id="chapter-1"><div class="board-head"><span class="number">01</span><div><span class="kicker">PRESENTATION TOPIC</span><h2>What is VDM?</h2><p class="message">Existing cameras become an assisted safety workflow.</p></div></div>
+<p class="explain">Imagine an operator watching several CCTV screens. Most footage is ordinary. A short incident at an entrance is easy to miss. VDM processes video locally, highlights possible incidents and saves evidence so the operator can make an informed decision.</p>
+<ol class="flow">
+<li><b>Observe</b><span>A camera or uploaded video provides the scene.</span></li>
+<li><b>Understand</b><span>People, motion and specialist checks supply signals.</span></li>
+<li><b>Review</b><span>An operator sees evidence and decides what happened.</span></li>
+<li><b>Improve</b><span>Reviewed examples can train a local event model.</span></li>
+</ol>
+<div class="cards">
+<article><h3>The problem</h3><p>More footage than people can watch carefully; slow searches and alerts without context.</p></article>
+<article><h3>Our solution</h3><p>A local analysis device, a browser workspace, short evidence clips and a review workflow.</p></article>
+<article><h3>Who benefits</h3><p>Security teams at campuses, warehouses, hospitals and similar sites. Each setting needs its own acceptance tests.</p></article>
+</div>
+<p class="design"><b>For the design team</b> Open with one relatable incident. Show the operator receiving the useful moment, not a claim of automatic certainty.</p></section>
+<section class="board purple" id="chapter-2"><div class="board-head"><span class="number">02</span><div><span class="kicker">PRESENTATION TOPIC</span><h2>Complete end-to-end workflow</h2><p class="message">Follow a frame, then follow the evidence.</p></div></div>
+<ol class="flow">
+<li><b>01 · Connect</b><span>Upload a recording, select a USB webcam, or enter an HTTP/RTSP stream.</span></li>
+<li><b>02 · Identify</b><span>Capture assigns camera, session, frame number and source time.</span></li>
+<li><b>03 · Process</b><span>Pose/motion runs alongside sampled object and depth workers.</span></li>
+<li><b>04 · Propose</b><span>Rules, specialist threats and an active clip model can create alerts.</span></li>
+</ol>
+<ol class="flow">
+<li><b>05 · Preserve</b><span>Save available pre-event and following footage, reasons and metadata.</span></li>
+<li><b>06 · Review</b><span>Confirm, dismiss, undo review or correct the training label.</span></li>
+<li><b>07 · Learn</b><span>Build a candidate from clips; evaluate before activation.</span></li>
+<li><b>08 · Monitor</b><span>Watch camera health, delay, evidence writing and storage.</span></li>
+</ol>
+<p class="callout">Timing matters: a worker may finish later, but its result keeps the original frame identity. Routine object samples come from capture; depth samples use frames with matching pose detections. A pose event may request its exact frame as a priority sample.</p>
+<p class="design"><b>For the design team</b> Use two connected rows. The second row continues after “Propose”. Include a return arrow from reviewed labels to learning.</p></section>
+<section class="board teal" id="chapter-3"><div class="board-head"><span class="number">03</span><div><span class="kicker">PRESENTATION TOPIC</span><h2>Exploded software architecture</h2><p class="message">Eight separated components. Inputs, responsibilities and outputs are always visible.</p></div></div>
+<p class="explain">Read the stack from the user interface down to storage. It is a map of software responsibilities, not a physical motherboard. The technical flow is explained below each layer. Names in small text identify the implementation files.</p><div class="exploded">
+<article class="layer-row shade-0"><div class="slab"><span>01 / COMPONENT</span><h3>Operator interface</h3><p>Templates + browser JavaScript</p><code>templates/ · static/</code></div><div class="connector" aria-hidden="true">⟶</div><div class="layer-description"><div><b>RECEIVES</b><p>Frames, alerts, evidence and health reports.</p></div><div><b>RESPONSIBILITY</b><p>Shows live views, incidents, recordings, analytics, training and device settings. Operators review labels and request actions.</p></div><div><b>PASSES ON</b><p>Control requests and human review decisions.</p></div></div></article>
+<article class="layer-row shade-1"><div class="slab"><span>02 / COMPONENT</span><h3>Flask controllers</h3><p>The application boundary</p><code>app.py · controllers/</code></div><div class="connector" aria-hidden="true">⟶</div><div class="layer-description"><div><b>RECEIVES</b><p>Browser requests to add a source, retrieve a frame or update a review.</p></div><div><b>RESPONSIBILITY</b><p>Validate requests, enforce current local access checks, and call the source manager or store.</p></div><div><b>PASSES ON</b><p>API responses, pages, media and saved review changes.</p></div></div></article>
+<article class="layer-row shade-2"><div class="slab"><span>03 / COMPONENT</span><h3>Source manager</h3><p>The coordinator</p><code>models/sources.py</code></div><div class="connector" aria-hidden="true">⟶</div><div class="layer-description"><div><b>RECEIVES</b><p>Validated camera definitions and start/stop commands.</p></div><div><b>RESPONSIBILITY</b><p>Owns source engines and shared storage; persists camera definitions and retries enabled failed cameras.</p></div><div><b>PASSES ON</b><p>An independent engine for each active source. Four sources per process is a software bound.</p></div></div></article>
+<article class="layer-row shade-3"><div class="slab"><span>04 / COMPONENT</span><h3>Capture and buffers</h3><p>The memory of the moment</p><code>capture.py · engine.py · storage.py</code></div><div class="connector" aria-hidden="true">⟶</div><div class="layer-description"><div><b>RECEIVES</b><p>Decoded frames from an upload, USB webcam or network stream.</p></div><div><b>RESPONSIBILITY</b><p>Attach identity and timestamps. Retain bounded raw footage and keep queues from growing indefinitely.</p></div><div><b>PASSES ON</b><p>Current frames for analysis and recent frames for evidence. Delayed results still reference their original capture.</p></div></div></article>
+<article class="layer-row shade-0"><div class="slab"><span>05 / COMPONENT</span><h3>Vision components</h3><p>The observers</p><code>vision.py · depth_worker.py · objects.py · threats.py</code></div><div class="connector" aria-hidden="true">⟶</div><div class="layer-description"><div><b>RECEIVES</b><p>Routine samples and priority event frames.</p></div><div><b>RESPONSIBILITY</b><p>Run pose tracking, optical flow, ZipDepth depth and the combined general-object/specialist-threat worker. Workers can finish at different rates.</p></div><div><b>PASSES ON</b><p>Tracked people, movement, relative depth and detections with provenance.</p></div></div></article>
+<article class="layer-row shade-1"><div class="slab"><span>06 / COMPONENT</span><h3>Event logic</h3><p>The incident proposals</p><code>behavior.py · heuristics.py · episodes.py</code></div><div class="connector" aria-hidden="true">⟶</div><div class="layer-description"><div><b>RECEIVES</b><p>Pose/motion history, visible threat detections and fresh temporal model predictions.</p></div><div><b>RESPONSIBILITY</b><p>Check persistence and event rules, gate threats and group related signals. Optional temporal predictions add reviewable events.</p></div><div><b>PASSES ON</b><p>Suggested event type, score, source time and reasons. Depth/general objects remain advisory context.</p></div></div></article>
+<article class="layer-row shade-2"><div class="slab"><span>07 / COMPONENT</span><h3>Local learning</h3><p>The optional adaptive component</p><code>learning.py · temporal.py</code></div><div class="connector" aria-hidden="true">⟶</div><div class="layer-description"><div><b>RECEIVES</b><p>Raw clips, labels and review status.</p></div><div><b>RESPONSIBILITY</b><p>Freeze ResNet18 features, train a GRU head, evaluate on a held-out source and check class coverage before activation.</p></div><div><b>PASSES ON</b><p>A saved candidate, evaluation report and an active model only when gates pass.</p></div></div></article>
+<article class="layer-row shade-3"><div class="slab"><span>08 / COMPONENT</span><h3>Evidence and persistence</h3><p>The record of the decision</p><code>evidence.py · storage.py · data/</code></div><div class="connector" aria-hidden="true">⟶</div><div class="layer-description"><div><b>RECEIVES</b><p>Incidents, frame buffers, reviews, settings and telemetry.</p></div><div><b>RESPONSIBILITY</b><p>Queue disk writes, save clips and SQLite metadata, serve history and apply expiry to automatic evidence.</p></div><div><b>PASSES ON</b><p>Playable evidence, searchable records, labels and metrics. Uploaded files have separate removal rules.</p></div></div></article>
+</div>
+<p class="callout">MVC connection: View → Controller → SourceManager / Store. Runtime connection: SourceManager → Engine → Capture + Vision + Rules → Evidence / UI. The Learner reads stored examples and supplies optional temporal predictions to the engine.</p>
+<p class="design"><b>For the design team</b> This is the exploded master diagram. Keep the depth faces, generous gaps and all annotations; split it across two slides if needed. Do not stack text behind another layer.</p></section>
+<section class="board blue" id="chapter-4"><div class="board-head"><span class="number">04</span><div><span class="kicker">PRESENTATION TOPIC</span><h2>What every AI component contributes</h2><p class="message">Several observers answer different questions.</p></div></div>
+<div class="cards">
+<article><h3>YOLO11 nano pose</h3><p>Finds people and body joints; supplies tracking geometry. Pose and motion target 20 FPS by default, but hardware determines completed FPS.</p></article>
+<article><h3>Optical flow + rules</h3><p>Measures movement and checks persistent patterns: possible fight, possible fall, person down, hands up and camera-local motion anomalies.</p></article>
+<article><h3>ZipDepth</h3><p>Routine depth at 1 FPS with a per-person relative Z axis. Compares nearer/farther order for close people in a sampled frame. Relative depth is not metres or proof of contact.</p></article>
+<article><h3>YOLO26s general objects</h3><p>Recognises 80 COCO classes for context: people, vehicles, bags and everyday objects. Its knife class does not independently raise a weapon alarm.</p></article>
+<article><h3>Specialist threat detector</h3><p>YOLOv8n detector for visible guns, knives, grenades and explosion-like visuals. Shares the routine object worker, sampled up to 2 FPS.</p></article>
+<article><h3>ResNet18 + GRU</h3><p>An optional temporal event classifier trained on clips. Adds predictions for its learned labels; existing rule and weapon alerts remain active.</p></article>
+</div>
+<p class="callout">Current combination is additive, not a single calibrated model that fuses everything. A normal clip prediction cannot cancel a rule or weapon alert. Robbery, chain snatching and accident labels in the interface do not imply validated automatic detection of those events.</p>
+<p class="design"><b>For the design team</b> Give each model a question: who is here, how are they moving, who is nearer, what is visible, and what does this clip resemble?</p></section>
+<section class="board purple" id="chapter-5"><div class="board-head"><span class="number">05</span><div><span class="kicker">PRESENTATION TOPIC</span><h2>All operator features</h2><p class="message">One workspace for live observation, evidence, review and improvement.</p></div></div>
+<div class="cards">
+<article><h3>Upload & camera setup</h3><p>Upload supported video files or add USB / HTTP / RTSP sources. Name cameras, start/stop analysis and inspect progress or frame freshness.</p></article>
+<article><h3>Three analysis views</h3><p>Pose/motion, sampled depth and sampled objects/threats. Different rates and result ages are visible; a smooth screen does not prove every frame was analysed.</p></article>
+<article><h3>Alerts & evidence</h3><p>Suggested label, source, time, score, priority, reasons and available raw/annotated evidence. Repeated nearby signals can become one grouped incident.</p></article>
+<article><h3>Human review</h3><p>Confirm an incident, dismiss a false positive, undo review or correct a label. Preserve the difference between detector proposal and operator judgement.</p></article>
+<article><h3>Recordings & history</h3><p>Manage saved videos, inspect evidence frames and download clips. Search events by date/time, text, priority and review state. History starts 12 hours after record creation.</p></article>
+<article><h3>Retention</h3><p>Default seven-day expiry for new automatic evidence. Changing retention does not rewrite existing expiry dates. Records and uploads remain; continuous recording is not implemented.</p></article>
+<article><h3>Training & data quality</h3><p>Review class balance, examples, duplicates and evaluation. Train a candidate in the background and keep the active model if promotion fails.</p></article>
+<article><h3>Help & recovery</h3><p>Local help includes regional-language drafts; main controls remain English. Camera definitions persist and enabled failed streams retry. Removal of a source does not erase evidence.</p></article>
+</div>
+<p class="design"><b>For the design team</b> Group features around operator actions: connect, watch, verify, find, improve and maintain. Avoid a screen full of model names.</p></section>
+<section class="board teal" id="chapter-6"><div class="board-head"><span class="number">06</span><div><span class="kicker">PRESENTATION TOPIC</span><h2>Analytics and device monitoring</h2><p class="message">Show what the site reports and whether the system is keeping up.</p></div></div>
+<div class="cards">
+<article><h3>Event analytics</h3><p>Event types, camera activity, people counts, review outcomes and label distribution help operators inspect patterns and pending work.</p></article>
+<article><h3>Pipeline measurements</h3><p>Input FPS, completed pose/motion rate, depth and object-worker rates, processing time, result age and capture-to-result delay.</p></article>
+<article><h3>Device & evidence health</h3><p>Camera freshness, worker readiness, filesystem free space, service uptime, write queue, dropped records and evidence-saving errors.</p></article>
+<article><h3>Operational logs</h3><p>Camera state changes and service problems support troubleshooting. These logs are not a full user security audit trail.</p></article>
+<article><h3>Learning evaluation</h3><p>Dataset coverage, candidate state, validation precision and recall, per-class support and active model information.</p></article>
+<article><h3>Future monitoring</h3><p>Full CPU/temperature telemetry, fleet dashboards, enterprise audit trails and managed updates need further implementation.</p></article>
+</div>
+<ol class="flow">
+<li><b>Measure</b><span>Collect events and operational telemetry.</span></li>
+<li><b>Explain</b><span>Show patterns, delays and status in readable terms.</span></li>
+<li><b>Respond</b><span>Review evidence or investigate a failed source.</span></li>
+<li><b>Verify</b><span>Check that the issue is resolved.</span></li>
+</ol>
+<p class="callout">Event charts are not detection accuracy. Measure missed incidents against independent labelled footage. “On pace” describes processing throughput, not whether every incident is detected.</p>
+<p class="design"><b>For the design team</b> Use two panels: “What is happening?” and “Is the device healthy?”. Label any proposed sample chart as illustrative.</p></section>
+<section class="board green" id="chapter-7"><div class="board-head"><span class="number">07</span><div><span class="kicker">PRESENTATION TOPIC</span><h2>Extraordinary value: optional Eco mode</h2><p class="message">Less model work during quiet periods, with periodic checks continuing.</p></div></div>
+<ol class="flow">
+<li><b>Active scene</b><span>Normal pose target and routine specialist sampling.</span></li>
+<li><b>10 quiet seconds</b><span>Lightweight motion monitoring finds no qualifying change.</span></li>
+<li><b>Quiet schedule</b><span>Pose 1 FPS · threats 1 FPS · depth 0.1 FPS.</span></li>
+<li><b>Motion returns</b><span>Normal processing schedule resumes.</span></li>
+</ol>
+<div class="cards">
+<article><h3>Why it matters</h3><p>A quiet corridor can request fewer expensive model scans. Across many quiet hours, lower average load may reduce power and heat.</p></article>
+<article><h3>Illustrative comparison</h3><p>Assume normal pose runs at 10 FPS and the camera spends 60% of time quiet. Eco average = 0.4 × 10 + 0.6 × 1 = 4.6 FPS: 54% fewer pose scans.</p></article>
+<article><h3>What the app measures</h3><p>Estimated avoided pose work, actual Eco scans and quiet time. Capture, decoding and motion monitoring still consume resources. Busy scenes may save nothing.</p></article>
+<article><h3>Tradeoff and proof</h3><p>Sampled checks can miss brief or obscured threats. Compare wall power, recall, missed events and delay using the same scenes before making environmental claims.</p></article>
+</div>
+<p class="callout">Eco is off by default, enabled per live camera. Uploads receive normal processing. Model-work reduction does not equal a measured reduction in electricity or carbon emissions.</p>
+<p class="design"><b>For the design team</b> Show both schedules side by side with dots representing scans. Mark the 54% example as an assumption, not a measured result.</p></section>
+<section class="board purple" id="chapter-8"><div class="board-head"><span class="number">08</span><div><span class="kicker">PRESENTATION TOPIC</span><h2>Extraordinary value: site- and scene-based learning</h2><p class="message">Reviewed examples can improve recognition at the physical site where the system is used.</p></div></div>
+<ol class="flow">
+<li><b>Collect</b><span>Incident clips and provisional normal examples.</span></li>
+<li><b>Review</b><span>Confirm or correct the proposed labels.</span></li>
+<li><b>Encode & train</b><span>Frozen ResNet18 → 64-unit GRU head.</span></li>
+<li><b>Evaluate</b><span>Independent source holdout and class checks.</span></li>
+<li><b>Decide</b><span>Pass: activate. Otherwise retain current model.</span></li>
+</ol>
+<div class="cards">
+<article><h3>Learn the physical site</h3><p>Reviewed clips expose the temporal classifier to the site’s camera angles, lighting, background, crowd density and normal activity. A warehouse entrance and a hospital corridor can have different visual patterns.</p></article>
+<article><h3>How quality can improve</h3><p>Representative local examples may reduce false alarms and improve recognition of supported events in that setting. This is adaptation through clip training, not automatic understanding of a place or guaranteed improvement.</p></article>
+<article><h3>Prove it on unseen recordings</h3><p>Keep complete recording sessions separate between training and testing, including different days, lighting and camera viewpoints. Measure event recall, false alerts and delay. Background memorisation can look accurate on familiar clips but fail on a new scene.</p></article>
+<article><h3>What is available today</h3><p>The current learner trains a shared active temporal classifier using stored clips. Separate per-camera or per-site model routing is not implemented. Moving a camera or changing the scene calls for fresh evaluation; general-purpose pose, object and depth models remain unchanged.</p></article>
+</div>
+<div class="cards">
+<article><h3>Training setup</h3><p>16 sampled frames per clip; 512-dimensional features; AdamW, learning rate 0.001, batch size 8 and 30 epochs. Feature caching reuses unchanged clip encodings.</p></article>
+<article><h3>Data protections</h3><p>Reviewed clips carry more weight. Exact duplicates are collapsed and conflicting duplicates excluded. Unreviewed model-generated labels do not teach themselves.</p></article>
+<article><h3>Promotion requirements</h3><p>At least 20 reviewed clips across three source groups and a suitable holdout; aggregate event recall ≥80%, precision ≥60%; at least five held-out clips per class and ≥80% class recall, plus non-regression checks.</p></article>
+<article><h3>Practical limits</h3><p>Three normal and two event clips only meet the candidate-training minimum. They do not prove quality. New classes, scene changes and biased labels need representative evaluation. Training does not fine-tune YOLO or ZipDepth.</p></article>
+</div>
+<p class="design"><b>For the design team</b> Draw a decision diamond after evaluation with PASS and WAIT branches. The old active model remains until a candidate passes.</p></section>
+<section class="board orange" id="chapter-9"><div class="board-head"><span class="number">09</span><div><span class="kicker">PRESENTATION TOPIC</span><h2>Website, download, licence and group access</h2><p class="message">The proposed commercial onboarding journey.</p></div></div>
+<p class="callout">◆ PLANNED — The current prototype does not implement the website account, licensing, multiple users, groups or secure shared-network access described here.</p>
+<ol class="flow">
+<li><b>Organisation signup</b><span>Create the buyer account on the website.</span></li>
+<li><b>Download</b><span>Receive signed software for supported hardware.</span></li>
+<li><b>Activate</b><span>Enter licence key; verify device entitlement.</span></li>
+<li><b>Device Owner</b><span>Verify the owner and create the first administrator.</span></li>
+</ol>
+<ol class="flow">
+<li><b>Create groups</b><span>Owner invites users and assigns roles on the website.</span></li>
+<li><b>Assign cameras</b><span>Choose which group may view each camera and evidence.</span></li>
+<li><b>Sync access</b><span>Device securely receives the current permissions.</span></li>
+<li><b>Sign in locally</b><span>Permitted users on the reachable LAN open their cameras.</span></li>
+</ol>
+<div class="cards">
+<article><h3>Licence and login are different</h3><p>The activation key grants software entitlement. It must not be the administrator password. Licence limits, fees and renewal policy are product decisions still to define.</p></article>
+<article><h3>Group example</h3><p>Gate operators → entrance cameras. Parking team → parking cameras. Supervisor → assigned cameras plus review. Viewer → permitted viewing only. These roles are proposed.</p></article>
+<article><h3>Network rule</h3><p>Same Wi-Fi is insufficient permission. Users need authenticated, camera-scoped access; wired Ethernet on the permitted network can also work. Guest Wi-Fi isolation may block connectivity.</p></article>
+<article><h3>Offline operation</h3><p>Define offline activation, signed local entitlement, licence grace period, local login and how revoked access reaches an offline device. A website outage should have an explicit operational policy.</p></article>
+</div>
+<p class="design"><b>For the design team</b> Use two parallel lanes: website manages organisation/licence/access; edge device processes and stores video. Connect them with activation and permission-sync arrows, not a cloud video upload arrow.</p></section>
+<section class="board blue" id="chapter-10"><div class="board-head"><span class="number">10</span><div><span class="kicker">PRESENTATION TOPIC</span><h2>How to run VDM today</h2><p class="message">The working local prototype setup, separate from the planned licence journey.</p></div></div>
+<ol class="flow">
+<li><b>Prepare</b><span>Follow README.md: Python 3.10–3.13, dependencies and verified model files.</span></li>
+<li><b>Launch</b><span>Run ./start.command from the project folder.</span></li>
+<li><b>Open</b><span>Visit http://127.0.0.1:8765 on the processing computer.</span></li>
+<li><b>Connect</b><span>Upload a video or enter a camera stream / webcam index.</span></li>
+<li><b>Verify</b><span>Check worker readiness, frame progress, evidence saving and playback.</span></li>
+</ol>
+<div class="cards">
+<article><h3>Access today</h3><p>Localhost binding; optional provisioned operator password through scripts/provision_access.py. There are no separate owner/group accounts in the current app.</p></article>
+<article><h3>Attached display</h3><p>HDMI or DisplayPort connects the processing device to a monitor. device.py provides a prototype browser-kiosk launcher; OS provisioning is still required.</p></article>
+<article><h3>Camera connection</h3><p>IP video arrives by Ethernet/network using a stream endpoint. USB cameras connect directly. HDMI does not connect an IP camera feed to the analysis software.</p></article>
+<article><h3>First acceptance check</h3><p>Process known footage, review the result, verify evidence playback, disconnect/reconnect a camera and observe processing rates before adding more feeds.</p></article>
+</div>
+<p class="design"><b>For the design team</b> Show real steps that can be demonstrated today. Do not present a licence entry screen as already available.</p></section>
+<section class="board orange" id="chapter-11"><div class="board-head"><span class="number">11</span><div><span class="kicker">PRESENTATION TOPIC</span><h2>Hardware, estimated cost and buying decisions</h2><p class="message">Budget assumptions first; measured workload determines the device.</p></div></div>
+<div class="cards">
+<article><h3>Small pilot starting point</h3><p>Modern multi-core CPU, approximately 16 GB RAM, 256–512 GB SSD, Ethernet, cooling and reliable power. A GPU is a benchmark decision, not automatically required for every pilot.</p></article>
+<article><h3>Higher load starting point</h3><p>Consider 32 GB RAM, more CPU capacity and a CUDA GPU on Linux. macOS currently uses CPU. ARM/Jetson deployment needs full compatibility and throughput testing.</p></article>
+<article><h3>Historical planning allowances</h3><p>The repository uses ₹70,000–₹150,000 for its smaller computer band and ₹100,000–₹220,000 for the larger band. These are dated internal allowances, not current quotes or validated camera capacities.</p></article>
+<article><h3>Example equipment budget</h3><p>Assume one computer at ₹70,000 with base SSD, two existing cameras at ₹0 incremental cost and ₹10,000 other equipment: ₹80,000 total. Licence, installation, maintenance and electricity are excluded.</p></article>
+</div>
+<ol class="flow">
+<li><b>Buyer inputs</b><span>Camera count, resolution, FPS, event classes and access.</span></li>
+<li><b>Storage policy</b><span>Event frequency, clip length and retention days.</span></li>
+<li><b>Benchmark</b><span>All workers, concurrent cameras, writes, heat and night scenes.</span></li>
+<li><b>Quote</b><span>Computer + cameras + network + storage + display + support.</span></li>
+</ol>
+<p class="callout">Storage example: 4 cameras × 7 days × [(5 events × 15 seconds × 12 Mbps ÷ 8,000) + (24 normal clips × 10 seconds × 4 Mbps ÷ 8,000)] ≈ 6.5 GB of planned clips. These are assumed aggregate bitrates/sample volumes. Add OS/model space and free reserve. No continuous recording is implemented.</p>
+<p class="design"><b>For the design team</b> Keep price assumptions and exclusions beside the numbers. The four-source process limit does not certify four-camera performance; no validated device profiles ship with the project.</p></section>
+<section class="board green" id="chapter-12"><div class="board-head"><span class="number">12</span><div><span class="kicker">PRESENTATION TOPIC</span><h2>Impact, differentiation and proof</h2><p class="message">Explain the benefit, then name how it will be measured.</p></div></div>
+<div class="cards">
+<article><h3>Faster understanding</h3><p>An operator receives the relevant clip and reasons. Measure review time and evidence availability rather than promising a percentage improvement.</p></article>
+<article><h3>Accountable decisions</h3><p>Human corrections remain distinguishable from model proposals. Future user-level audits and roles would deepen accountability.</p></article>
+<article><h3>Local resilience</h3><p>On-site inference reduces cloud dependence. Validate reconnects, power recovery, storage pressure and recovery from failed workers.</p></article>
+<article><h3>Measured efficiency</h3><p>Eco can reduce quiet-scene inference work. Verify actual power use and safety tradeoffs on the target hardware.</p></article>
+<article><h3>Better local fit</h3><p>Reviewed temporal training may adapt event recognition to a site. Compare held-out recall, false alerts per camera-hour and delay against the current system.</p></article>
+<article><h3>What makes the combination valuable</h3><p>Frame provenance + evidence review + visible operational health + conservative Eco scheduling + gated site learning. These are integrated product strengths; market uniqueness has not been proven.</p></article>
+</div>
+<p class="callout">The promise: help an operator notice important moments, inspect the evidence and improve from reviewed reality. Small, hidden or blurred threats, unfamiliar events and incomplete training data remain real limitations.</p>
+<p class="design"><b>For the design team</b> Close with the operator outcome. Use pilot evidence for accuracy, cost and sustainability claims, not model marketing figures.</p></section>
+<footer><b>Content basis</b><p>README.md · docs/engineering-guide.md · engine.py · capture.py · eco.py · learning.py · temporal.py · storage.py · capacity.py · hardware_planner.py. Names and behaviours refer to the current prototype. Commercial onboarding is explicitly planned.</p><a href="interactive.html">Earlier interactive explorer ↗</a><a href="#">Back to the first topic ↑</a></footer></main></body></html>

@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=VMD Shield
+Comment=Start the local VMD appliance display
+Exec=/opt/vmd/.venv/bin/python /opt/vmd/device.py
+Path=/opt/vmd
+Terminal=false
+X-GNOME-Autostart-enabled=true

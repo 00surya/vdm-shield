@@ -1,0 +1,5 @@
+# Standalone Colab/local training toolkit. Keep the platform's matched torch/torchvision pair.
+ultralytics==8.4.154
+PyYAML>=6,<7
+onnx>=1.17,<2
+onnxruntime>=1.20,<2

@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="auth-layout">
+  <div>
+    <p class="eyebrow">VDM SHIELD · YOUR TEAM WORKSPACE</p>
+    <h1>{{ 'Start with your organization.' if mode == 'signup' else 'Make it official.' if mode == 'verify' else 'Welcome back.' }}</h1>
+    <p class="auth-description">{{ 'Create an administrator account, organize your locations and give every operator the right access.' if mode == 'signup' else 'Finish verification and choose the password you will use to sign in. You can reuse the password you chose during signup.' if mode == 'verify' else 'Sign in to manage your groups, activate devices and keep your team connected.' }}</p>
+    <div class="auth-points"><p>✓ Group-based device activation</p><p>✓ Separate administrator and operator access</p><p>✓ Video processing on your own hardware</p></div>
+    {% if mode == 'signup' and trial_days %}<p class="muted">Your {{ trial_days }}-day trial starts after verification. Includes {{ config.TRIAL_DEVICES }} devices and up to {{ config.TRIAL_CAMERAS }} cameras per device.</p>{% endif %}
+    {% if development_email_preview %}<p class="local-preview-note">Local preview: no email is sent. After signup, continue verification on this website. If you already signed up, enter your original password to return to that step.</p>{% endif %}
+  </div>
+  {% if mode == 'signup' and not email_delivery_configured %}
+  <div class="panel account" role="status">
+    <h2>Registration is temporarily unavailable.</h2>
+    <p>We cannot send account verification emails right now. Please contact the site administrator before creating an account.</p>
+    <p>Already have a verified account? <a href="{{ url_for('login') }}">Sign in</a></p>
+  </div>
+  {% else %}
+  <form class="panel account" method="post">
+    <h2>{{ 'Create your account' if mode == 'signup' else 'Finish verification' if mode == 'verify' else 'Sign in' }}</h2>
+    <input type="hidden" name="csrf" value="{{ csrf_token() }}">
+    {% if mode == 'signup' %}<label>Organization name<input name="organisation" required minlength="2" maxlength="160" autocomplete="organization" placeholder="e.g. Westbridge Security" value="{{ request.form.get('organisation', '') }}"></label>{% endif %}
+    {% if mode == 'verify' %}
+      <label>Choose your sign-in password<input type="password" name="password" required minlength="12" maxlength="128" autocomplete="new-password" aria-describedby="password-help"></label>
+      <p class="muted" id="password-help">Use at least 12 characters. This is the password you will use from now on.</p>
+    {% else %}
+      <label>Work email<input type="email" name="email" required maxlength="254" autocomplete="email" placeholder="you@company.com" value="{{ request.form.get('email', '') }}"></label>
+      <label>Password<input type="password" name="password" required minlength="{{ 12 if mode == 'signup' else 1 }}" maxlength="128" autocomplete="{{ 'new-password' if mode == 'signup' else 'current-password' }}"{% if mode == 'signup' %} aria-describedby="password-help"{% endif %}></label>
+      {% if mode == 'signup' %}
+        <p class="muted" id="password-help">Use at least 12 characters. {{ 'Next, complete verification in this local preview.' if development_email_preview else 'We will send a verification email.' }}</p>
+      {% else %}<p class="muted"><a href="/forgot-password">Forgot password?</a></p>{% endif %}
+    {% endif %}
+    <button type="submit">{{ 'Create organization ↗' if mode == 'signup' else 'Verify account' if mode == 'verify' else 'Sign in →' }}</button>
+    {% if mode == 'login' %}
+      <p>New organization? <a href="/signup">Create an account</a></p>
+      <p class="muted">Invited to a group? First accept the link in your invitation email.</p>
+    {% elif mode == 'signup' %}
+      <p>Already registered? <a href="/login">Sign in</a></p>
+      <p class="muted">Joining an existing team? Use your invitation email to create an operator account.</p>
+    {% endif %}
+  </form>
+  {% endif %}
+</section>
+{% endblock %}

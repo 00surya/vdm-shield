@@ -1,0 +1,11 @@
+{% for prefix, title in [('event', 'Events'), ('history', 'History')] %}
+<section class="page workspace" id="{{ 'events' if prefix == 'event' else 'history' }}" data-page="{{ 'events' if prefix == 'event' else 'history' }}">
+  <div class="section-heading"><div><span class="section-kicker">Watch and review</span><h1>{{ title }}</h1><p class="page-subtitle">{{ 'Events saved in the last 12 hours. Older events move to History automatically.' if prefix == 'event' else 'Events saved more than 12 hours ago, including unreviewed events.' }}</p></div></div>
+  <p class="section-note">Watch the evidence, confirm or dismiss the signal, and correct its training label here. Filters use event saved time in your local timezone.</p>
+  <div class="event-filters"><label>Search<input id="{{ prefix }}-search" type="search" placeholder="Event type or source name"></label><label>Review status<select id="{{ prefix }}-review"><option value="all">All reviews</option><option value="unreviewed">Needs review</option><option value="confirmed">Confirmed</option><option value="false_positive">False positive</option></select></label><label>Priority<select id="{{ prefix }}-priority"><option value="all">All priorities</option><option value="high">High priority objects</option></select></label></div>
+  <div class="date-filters"><label>From date and time<input id="{{ prefix }}-from" type="datetime-local" step="1"></label><label>Through date and time<input id="{{ prefix }}-to" type="datetime-local" step="1"></label><button id="{{ prefix }}-clear" type="button">Clear filters</button></div>
+  <p id="{{ prefix }}-feedback" class="review-page-feedback" role="status" aria-live="polite"></p>
+  <p id="{{ prefix }}-summary" role="status"></p><div id="{{ 'incidents' if prefix == 'event' else 'history-list' }}" class="incident-list"></div>
+  <div class="date-filters"><button id="{{ prefix }}-previous" type="button">Previous page</button><span id="{{ prefix }}-page"></span><button id="{{ prefix }}-next" type="button">Next page</button></div>
+</section>
+{% endfor %}

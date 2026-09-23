@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}Finish account setup · VDM Shield{% endblock %}
+{% block content %}
+<section class="auth-layout">
+  <div>
+    <p class="eyebrow">ONE MORE STEP</p>
+    <h1>{{ 'Finish your local setup.' if development_email_preview else 'Check your email.' if email_delivery_configured else 'Verification is temporarily unavailable.' }}</h1>
+    <p class="auth-description">Verify your account, choose the password you will use to sign in, and open your organization’s workspace.</p>
+    <div class="auth-points"><p>✓ Your account needs verification before sign-in</p>{% if trial_days %}<p>✓ Your trial starts after verification</p>{% endif %}<p>✓ Your cameras and footage stay on your device</p></div>
+  </div>
+  <div class="panel account verification-panel">
+    <h2>{{ 'Local account preview' if development_email_preview else 'Verify your account' }}</h2>
+    <p class="verification-address">{{ email }}</p>
+    {% if development_email_preview %}
+      <p>This local preview does not send email.{% if preview_url %} Use the verification button below to continue setup on this Mac.{% endif %}</p>
+      {% if preview_url %}
+        <a class="button" href="{{ preview_url }}">Continue verification</a>
+        <p class="muted">This completes a local test account. It does not verify ownership of a real email address.</p>
+      {% else %}
+        <p>Already started an account? Sign in with the password you chose to access its verification step. If your account is already verified, sign in as usual.</p>
+      {% endif %}
+    {% elif not email_delivery_configured %}
+      <p>Your account is waiting for email verification. Verification emails are unavailable right now. Please contact the site administrator.</p>
+      <p class="muted">Once email delivery is restored, return here to request a new verification email.</p>
+    {% else %}
+      <p>Look for a verification email for this address. Open its link to finish setting up your account, or request a new email below.</p>
+      <p class="muted">Check your spam folder too. Links expire after one hour. Already verified? You can sign in now.</p>
+      <form method="post" action="{{ url_for('resend_verification') }}">
+        <input type="hidden" name="csrf" value="{{ csrf_token() }}">
+        <button type="submit">Resend verification email</button>
+      </form>
+    {% endif %}
+    <p><a href="{{ url_for('login') }}">Back to sign in</a></p>
+    <p><a href="{{ url_for('signup') }}">Use a different email</a></p>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vmd-shield"
+version = "0.1.0"
+description = "Local pose, motion and relative-depth incident review prototype"
+requires-python = ">=3.10,<3.14"
+dependencies = ["Flask>=3.0,<4", "numpy>=1.26,<3", "opencv-python>=4.10,<5", "imageio-ffmpeg>=0.6,<0.7"]
+
+[project.optional-dependencies]
+vision = ["ultralytics>=8.4.154,<9", "torch>=2.2,<3", "torchvision>=0.17,<1", "onnxruntime>=1.20,<2", "lap>=0.5,<1"]
+depth-export = ["onnx>=1.17,<2", "torch>=2.6,<3"]
+weapon-training = ["PyYAML>=6,<7", "onnx>=1.17,<2"]
+desktop = ["keyring>=25,<26"]
+cloud = ["SQLAlchemy>=2.0,<3", "psycopg[binary]>=3.1,<4", "gunicorn>=23,<24"]
+test = ["pytest>=8,<10"]
+
+[tool.setuptools.packages.find]
+include = ["vmd*", "vdm_cloud*"]
+
+[tool.setuptools.package-data]
+vdm_cloud = ["templates/*.html", "static/*.css", "static/*.js", "static/*.svg", "static/vendor/*.js", "static/vendor/*.txt", "static/fonts/*.ttf", "static/fonts/*.txt"]
+vmd = ["static/*", "static/docs/*.json", "static/product/*", "templates/*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

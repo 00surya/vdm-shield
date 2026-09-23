@@ -1,0 +1,8 @@
+<section class="page workspace" id="videos" data-page="videos">
+  <div class="section-heading"><div><span class="section-kicker">Saved files</span><h1>Video library</h1><p class="page-subtitle">Upload once, find it here, and analyze it whenever you need.</p></div><a href="#sources">Live analysis →</a></div>
+  <form id="library-upload" class="panel library-upload"><label for="library-video">1. Choose a video from your computer</label><input id="library-video" name="video" type="file" accept="video/*,.mkv,.avi,.m4v" required><button class="primary" type="submit">2. Upload to library</button><p id="library-upload-status" role="status">Then choose Analyze on the saved video below. Maximum file size: 2 GB.</p></form>
+  <p class="section-note">Deleting a video removes the application's saved copy. Your original file and event evidence are kept. Remove its card from Sources first.</p>
+  <label class="library-search">Find a video<input id="video-search" type="search" placeholder="Search by filename"></label>
+  <div class="date-filters" aria-label="Video date filters"><label>From date<input id="video-from" type="date"></label><label>Through date<input id="video-to" type="date"></label><button id="video-clear" type="button">Clear filters</button></div><p class="section-note">Filter by upload date in your local timezone, including both selected days.</p>
+  <p id="video-total" role="status"></p><div id="video-library" class="file-grid"></div>
+</section>

@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VMD Shield · Video analysis</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='console.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='polish.css', v='20260922-depth1') }}">
+  <script src="{{ url_for('static', filename='main.js', v='20260922-confirmation1') }}" defer></script>
+  <script src="{{ url_for('static', filename='library.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='events.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='dataset.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='logs.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='docs.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='capacity.js', v='20260922-depth1') }}" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#sources" aria-label="VMD Shield home"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="brand-copy"><strong>VMD Shield</strong><small>VIDEO INTELLIGENCE</small></span></a>
+    <nav aria-label="Main navigation">
+<div class="nav-group"><span class="nav-group-label">Workspace</span>
+<a href="#sources" data-page-link="sources"><img class="nav-icon" src="{{ url_for('static', filename='fa-video.svg') }}" alt="" aria-hidden="true"><span>Live view</span></a>
+<a href="#events" data-page-link="events"><img class="nav-icon" src="{{ url_for('static', filename='fa-bell.svg') }}" alt="" aria-hidden="true"><span>Alerts</span></a>
+<a href="#videos" data-page-link="videos"><img class="nav-icon" src="{{ url_for('static', filename='fa-film.svg') }}" alt="" aria-hidden="true"><span>Recordings</span></a>
+<a href="#history" data-page-link="history"><img class="nav-icon" src="{{ url_for('static', filename='fa-history.svg') }}" alt="" aria-hidden="true"><span>History</span></a>
+</div>
+<div class="nav-group"><span class="nav-group-label">Intelligence</span>
+<a href="#metrics" data-page-link="metrics"><img class="nav-icon" src="{{ url_for('static', filename='fa-chart.svg') }}" alt="" aria-hidden="true"><span>Analytics</span></a>
+<a href="#training" data-page-link="training"><img class="nav-icon" src="{{ url_for('static', filename='fa-training.svg') }}" alt="" aria-hidden="true"><span>Training</span></a>
+{% if internal_tools %}<a href="#sizing" data-page-link="sizing"><img class="nav-icon" src="{{ url_for('static', filename='fa-chip.svg') }}" alt="" aria-hidden="true"><span>Device sizing</span></a>{% endif %}
+</div>
+<div class="nav-group"><span class="nav-group-label">System</span><a href="#logs" data-page-link="logs"><span>Live logs</span></a>
+<a href="#analyze" data-page-link="analyze"><img class="nav-icon" src="{{ url_for('static', filename='fa-upload.svg') }}" alt="" aria-hidden="true"><span>Camera setup</span></a>
+<a href="#capacity" data-page-link="capacity"><img class="nav-icon" src="{{ url_for('static', filename='fa-settings.svg') }}" alt="" aria-hidden="true"><span>Device & settings</span></a>
+<a href="/activation"><span>Activation & licence</span></a>
+<a href="#docs" data-page-link="docs"><img class="nav-icon" src="{{ url_for('static', filename='fa-help.svg') }}" alt="" aria-hidden="true"><span>Documentation</span></a>
+<a href="{{ url_for('static', filename='product/index.html') }}"><span>Explore VMD Shield ↗</span></a>
+</div>
+</nav>
+    <span class="local"><span aria-hidden="true"></span>Running locally</span>
+  </header>
+  <p id="licence-banner" role="status"></p>
+  <script src="{{ url_for('static', filename='licence-banner.js') }}" defer></script>
+  <p id="global-message" class="global-message" role="alert" hidden></p>
+  <div id="threat-notice" class="threat-notice" role="status" hidden><span id="threat-notice-text"></span><a href="#events">Review alerts →</a></div>
+  <main>
+    <div class="page active" id="analyze" data-page="analyze">
+    <section class="intro"><span class="eyebrow"><span class="sparkle" aria-hidden="true">✦</span> Source configuration</span><h1>Configure an analysis source.</h1><p>Upload a video or connect a camera. Follow the analysis live, review important moments, and improve the model as you go.</p></section>
+    <section class="setup panel" aria-label="Add a source">
+      <div class="setup-head"><div><h2>Start an analysis</h2><p>Choose a file below to upload and start immediately, or use the Videos tab to save a file for later.</p></div><span class="step">01 / Source</span></div>
+      <div class="tabs" role="tablist" aria-label="Source type"><button type="button" class="tab active" data-tab="upload" role="tab" aria-selected="true">Upload video</button><button type="button" class="tab" data-tab="camera" role="tab" aria-selected="false">Add camera or stream</button></div>
+      <form id="source-form">
+        <input type="hidden" name="kind" id="kind" value="upload">
+        <div id="upload-fields"><input class="file-input" id="video" name="video" type="file" accept="video/*,.mkv,.avi,.m4v"><label class="dropzone" for="video"><span class="upload-icon" aria-hidden="true">↑</span><strong id="file-label">Choose a video or drop it here</strong><span>MP4, MOV, AVI, MKV, WebM, or M4V</span></label></div>
+        <div id="camera-fields" hidden><label for="source">Camera URL or webcam index</label><input id="source" name="source" type="text" placeholder="0 or rtsp://camera-address/stream"><p class="hint">Use webcam 0–9 or an HTTP, MJPEG, or RTSP video endpoint.</p><label class="eco-choice"><input id="eco-mode" name="eco_mode" type="checkbox"><span><strong>Use Eco mode <em>optional</em></strong><small>Reduces model processing during quiet scenes. A weapon safety scan still runs every second.</small></span></label></div>
+        <div class="form-row"><label for="name">Source name <span class="optional">optional</span></label><input id="name" name="name" type="text" maxlength="64" placeholder="e.g. Front entrance"></div>
+        <div class="submit-row"><button class="primary" type="submit" id="add-button">Analyze video <span aria-hidden="true">→</span></button><span id="form-message" role="status" aria-live="polite"></span></div>
+      </form>
+    </section>
+    <section class="workflow-guide" aria-label="How analysis works"><article><h2>1. Analyze</h2><p>Pose tracks people and movement. ZipDepth estimates relative depth. YOLO26s detects 80 everyday object classes for context. A separate weapon detector looks for guns, knives, grenades, and explosions.</p></article><article><h2>2. Review</h2><p>Open Events to confirm or dismiss alerts and correct their labels. A detection is a signal to check, not proof of an incident.</p></article><article><h2>3. Improve</h2><p>Use Training to check label balance and train the clip classifier. Metrics shows activity and review counts, not detection accuracy.</p></article></section><p class="next-step">Manage saved files in <a href="#videos">Videos</a> and <a href="#events">Events</a>. Already analyzing? <a href="#sources">View live sources →</a></p>
+    </div>
+    <section class="page workspace" id="sources" data-page="sources"><div class="section-heading"><div><span class="section-kicker">Live workspace</span><h1>Live monitoring</h1><p class="page-subtitle">Stop ends analysis. Remove source closes its card and keeps saved files in Videos and Evidence.</p></div><span class="count-pill" id="source-count">0 / 4</span></div><div id="source-list" class="source-list"><p class="empty">Your analysis will appear here. <a href="#analyze">Add a video or camera</a> to begin.</p></div></section>
+    {% include 'events.html' %}
+    {% include 'library.html' %}
+    {% include 'metrics.html' %}
+    <section class="page workspace" id="logs" data-page="logs">
+      <div class="section-heading"><div><span class="section-kicker">Operations</span><h1>Live system logs</h1><p class="page-subtitle">Camera health and problems. Updated every 5 seconds.</p></div><button id="logs-pause" type="button">Pause updates</button></div>
+      <p id="logs-summary" role="status">Loading…</p>
+      <label>Show entries<select id="logs-level"><option value="all">All activity</option><option value="warning">Problems</option><option value="info">Information</option></select></label>
+      <p id="logs-status" role="status"></p>
+      <article class="chart-card"><div class="device-table-scroll"><table class="device-camera-table"><thead><tr><th>Time</th><th>Level</th><th>Message</th></tr></thead><tbody id="logs-entries"></tbody></table></div></article>
+      <p class="capacity-note">Latest 200 matching entries; 2,000 retained across restarts. State changes are logged once, with a summary every minute. Brief faults between checks may be missed. This is operational history, not a security audit trail.</p>
+    </section>
+    {% include 'capacity.html' %}
+    {% if internal_tools %}<section class="page workspace" data-page="sizing" id="sizing">
+      <div class="section-heading"><div><span class="section-kicker">Internal engineering tool</span><h1>Device sizing</h1><p>Match customer requirements to tested device configurations.</p></div></div>
+      <form id="sizing-form" class="chart-card capacity-retention">
+        <label>Concurrent cameras<input name="cameras" type="number" min="1" max="128" step="1" value="4" required></label>
+        <label>Required analyzed FPS per camera<input name="fps" type="number" min="1" max="60" value="20" required></label>
+        <label>Input resolution<select name="resolution"><option>720p</option><option selected>1080p</option><option>4k</option></select></label>
+        <label>Benchmark pipeline ID<input name="pipeline" value="default" required></label>
+        <button class="primary" type="submit">Find validated devices</button>
+      </form>
+      <div id="sizing-result" class="chart-card capacity-retention" role="status">Enter the deployment requirements. Only benchmarked configurations are eligible.</div>
+    </section>
+    {% endif %}
+    {% include 'training.html' %}
+    {% include 'docs.html' %}
+  </main>
+  <footer>VMD Shield <span>Local video analysis · Alerts need human review</span></footer>
+</body>
+</html>

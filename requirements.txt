@@ -1,0 +1,2 @@
+# Heroku deploys only the cloud account service, without inference dependencies.
+-r requirements-cloud.txt

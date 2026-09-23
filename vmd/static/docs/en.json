@@ -1,0 +1,42 @@
+{
+  "title": "Operator guide",
+  "subtitle": "Daily operation of the VMD device",
+  "language": "Language",
+  "search": "Search this guide",
+  "empty": "No matching topics.",
+  "note": "This guide is translated; application buttons remain in English. Translations are drafts for native-speaker review before deployment. All guide content is stored locally.",
+  "audience": "operator",
+  "translation_status": "source",
+  "sections": [
+    [
+      "setup",
+      "Connect and start",
+      "Connect the device to a TV/monitor by HDMI. Use a mouse and keyboard or a compatible touchscreen; a normal TV remote is not supported. Sign in as operator if a password is configured.\nOpen Advanced → Camera setup / upload. Choose Add camera or stream, enter the USB webcam index (for example 0) or the HTTP/RTSP camera address, name it, and connect. Network cameras must be reachable from the device. No separate computer is required."
+    ],
+    [
+      "monitor",
+      "Monitor cameras",
+      "Live view shows video and analysis. Device & settings shows online cameras, processing speed, worker health and storage. On pace means at least 90% of the requested processing rate; it does not measure detection accuracy.\nEco mode is an optional camera setting and is off by default. It reduces model work during quiet scenes. Full analysis returns when motion appears. Even while quiet, pose is checked once per second, weapons are checked once per second, and depth is checked every ten seconds. Device & settings compares estimated Normal pose work with actual Eco pose work from the same session. Eco mode can reduce processing, but no mode guarantees that every event or object will be detected. Check camera views and device warnings at the start of each shift.\nDepth is relative, not distance in metres."
+    ],
+    [
+      "review",
+      "Review alerts",
+      "Open Alerts, play the evidence, and check what actually happened before confirming an event. Mark a false alarm only when the footage supports that decision. If unclear, leave it unreviewed. Correct the event label when needed.\nAn alert is a signal to investigate, not proof of danger. Follow your organisation’s response procedure. Alerts older than 12 hours appear under Advanced → History; they have not been deleted."
+    ],
+    [
+      "storage",
+      "Recordings and cleanup",
+      "Recordings holds uploaded videos. Device & settings shows disk usage for the whole data disk, not just recordings. Evidence health shows writer status, dropped records and the last alert clip saved during this server session.\nClip cleanup applies to new automatic clips and samples only. Existing clips keep their expiry. Event records, uploads and uploaded training clips remain until removed. Download evidence you need to retain before expiry. There is no continuous recording."
+    ],
+    [
+      "recovery",
+      "Connection problems and support",
+      "Enabled cameras are restored when the server restarts. Failed or stale streams are retried with increasing delays, up to five minutes between attempts. Stop keeps a camera stopped across restarts; Remove deletes its saved setup, not existing evidence.\nCheck power, network and camera address when video is missing. For low storage, review saved files; changing retention does not immediately remove old clips. Export diagnostics for support and review the file before sharing: it includes camera names."
+    ],
+    [
+      "learning",
+      "Labels and learning",
+      "Reviewing a clip does not immediately change detection. Staff train and validate a separate event classifier; the pretrained object detector is not retrained by clip labels. A few event classes in the dataset cannot teach every possible event.\nHeuristics and pretrained detectors remain active. More data does not guarantee improvement. Training, configuration changes and deletion should follow your organisation’s permissions and procedures."
+    ]
+  ]
+}
