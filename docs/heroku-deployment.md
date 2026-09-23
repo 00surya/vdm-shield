@@ -7,7 +7,7 @@ Deployed and verified on 24 September 2026:
 - Website: https://vdm-shield-c497900ed597.herokuapp.com
 - Heroku dashboard: https://dashboard.heroku.com/apps/vdm-shield
 - App: `vdm-shield`, EU region, Heroku-24, Python 3.13.
-- Release: `v6`, deployment commit `adbc8bc`, successful database initialization.
+- Release: `v7`, GitHub commit `1bef399`, successful database initialization.
 - Web: one always-on Basic dyno ($7/month).
 - Database: `postgresql-clear-16129`, Essential-0 PostgreSQL ($5/month).
 - Approved recurring base cost: approximately US$12/month, excluding taxes and
@@ -32,6 +32,17 @@ with its package initializer, and the Python/Heroku launch files.
 
 ## GitHub deployments
 
+Repository: [00surya/vdm-shield](https://github.com/00surya/vdm-shield), public,
+with `main` as its default branch. All 43 cloud checks passed on GitHub's clean
+Python 3.13 runner. Release `v7` was built from that exact public GitHub commit
+using Heroku's Build API; its release succeeded, the web dyno is up, and the
+health, product, login and signup pages returned HTTP 200.
+
+**Automatic deployments are not enabled yet.** Heroku's account-level GitHub
+authorization is still pending. The verified Build API deployment is a manual
+release, not a webhook connection; a future push to `main` will run tests but
+will not yet deploy the website.
+
 The full project can deploy from its repository root: `requirements.txt` selects
 the cloud dependencies and `Procfile` starts only the cloud service. `.slugignore`
 removes documentation, tests, training tools and device UI assets from the slug.
@@ -49,10 +60,10 @@ connection. This uses the existing app and database; Heroku CI, review apps and 
 second staging app are not needed. Keep SMTP and database credentials in Heroku,
 not GitHub source or workflow files.
 
-The initial release above predates that connection. Account authorization and a
-verified GitHub-triggered release are required before treating automatic deployment
-as configured. After connecting, use GitHub as the deployment source; its commits
-are not synchronized into the separate Heroku Git repository.
+Account authorization and a verified push-triggered release are required before
+treating automatic deployment as configured. After connecting, use GitHub as the
+deployment source; its commits are not synchronized into the separate Heroku Git
+repository.
 
 ## Prepare the deployment
 

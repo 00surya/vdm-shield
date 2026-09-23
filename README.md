@@ -121,6 +121,8 @@ The website is hosted on [Heroku](https://vdm-shield-c497900ed597.herokuapp.com)
 
 See [Heroku deployment](docs/heroku-deployment.md) for repository deployment, checks and operational details.
 
+GitHub runs the cloud tests on pushes to `main`. A build from this repository has been verified on Heroku; automatic deployment is still waiting for the Heroku account's GitHub connection.
+
 Still to finish before customer distribution:
 
 - Configure and test production email. Registration and password recovery are unavailable on the live site until a sender is configured.
